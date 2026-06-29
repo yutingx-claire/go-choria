@@ -281,7 +281,7 @@ func (r *RPC) setupFilter(fw inter.Framework) error {
 	}
 
 	if r.def.Request.Filter != nil {
-		err = appbuilder.ProcessStdDiscoveryOptions(r.def.Request.Filter, r.arguments, r.flags, r.cfg)
+		err = appbuilder.ProcessStdDiscoveryOptions(r.b, r.def.Request.Filter, r.arguments, r.flags)
 		if err != nil {
 			return err
 		}
@@ -523,7 +523,7 @@ func (r *RPC) reqOptions(action *agent.Action) (inputs map[string]string, rpcInp
 }
 
 func (r *RPC) parseStateTemplate(body string) (string, error) {
-	return builder.ParseStateTemplate(body, r.arguments, r.flags, r.cfg)
+	return r.b.RenderTemplate(body, r.arguments, r.flags)
 }
 
 func dereferenceArgsOrFlags(input map[string]any) map[string]any {

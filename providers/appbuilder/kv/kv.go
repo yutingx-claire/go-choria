@@ -39,7 +39,6 @@ type KV struct {
 	flags     map[string]any
 	cmd       *fisk.CmdClause
 	def       *Command
-	cfg       any
 	log       builder.Logger
 	ctx       context.Context
 }
@@ -47,7 +46,6 @@ type KV struct {
 func NewKVCommand(b *builder.AppBuilder, j json.RawMessage, log builder.Logger) (builder.Command, error) {
 	kv := &KV{
 		def:       &Command{},
-		cfg:       b.Configuration(),
 		ctx:       b.Context(),
 		b:         b,
 		log:       log,
@@ -165,7 +163,7 @@ func (r *KV) getAction(kv nats.KeyValue) error {
 }
 
 func (r *KV) putAction(kv nats.KeyValue) error {
-	v, err := builder.ParseStateTemplate(r.def.Value, r.arguments, r.flags, r.cfg)
+	v, err := r.b.RenderTemplate(r.def.Value, r.arguments, r.flags)
 	if err != nil {
 		return err
 	}
@@ -278,11 +276,11 @@ func (r *KV) historyAction(kv nats.KeyValue) error {
 }
 
 func (r *KV) bucket() (string, error) {
-	return builder.ParseStateTemplate(r.def.Bucket, r.arguments, r.flags, r.cfg)
+	return r.b.RenderTemplate(r.def.Bucket, r.arguments, r.flags)
 }
 
 func (r *KV) key() (string, error) {
-	return builder.ParseStateTemplate(r.def.Key, r.arguments, r.flags, r.cfg)
+	return r.b.RenderTemplate(r.def.Key, r.arguments, r.flags)
 }
 
 func (r *KV) runCommand(_ *fisk.ParseContext) error {

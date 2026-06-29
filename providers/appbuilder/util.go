@@ -9,74 +9,74 @@ import (
 	"github.com/choria-io/go-choria/client/discovery"
 )
 
-func ProcessStdDiscoveryOptions(f *discovery.StandardOptions, arguments map[string]any, flags map[string]any, config any) error {
+func ProcessStdDiscoveryOptions(b *builder.AppBuilder, f *discovery.StandardOptions, arguments map[string]any, flags map[string]any) error {
 	var err error
 
 	if f.DiscoveryMethod != "" {
-		f.DiscoveryMethod, err = builder.ParseStateTemplate(f.DiscoveryMethod, arguments, flags, config)
+		f.DiscoveryMethod, err = b.RenderTemplate(f.DiscoveryMethod, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for k, v := range f.DiscoveryOptions {
-		f.DiscoveryOptions[k], err = builder.ParseStateTemplate(v, arguments, flags, config)
+		f.DiscoveryOptions[k], err = b.RenderTemplate(v, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	if f.Collective != "" {
-		f.Collective, err = builder.ParseStateTemplate(f.Collective, arguments, flags, config)
+		f.Collective, err = b.RenderTemplate(f.Collective, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	if f.NodesFile != "" {
-		f.NodesFile, err = builder.ParseStateTemplate(f.NodesFile, arguments, flags, config)
+		f.NodesFile, err = b.RenderTemplate(f.NodesFile, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	if f.CompoundFilter != "" {
-		f.CompoundFilter, err = builder.ParseStateTemplate(f.CompoundFilter, arguments, flags, config)
+		f.CompoundFilter, err = b.RenderTemplate(f.CompoundFilter, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for i, item := range f.CombinedFilter {
-		f.CombinedFilter[i], err = builder.ParseStateTemplate(item, arguments, flags, config)
+		f.CombinedFilter[i], err = b.RenderTemplate(item, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for i, item := range f.IdentityFilter {
-		f.IdentityFilter[i], err = builder.ParseStateTemplate(item, arguments, flags, config)
+		f.IdentityFilter[i], err = b.RenderTemplate(item, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for i, item := range f.AgentFilter {
-		f.AgentFilter[i], err = builder.ParseStateTemplate(item, arguments, flags, config)
+		f.AgentFilter[i], err = b.RenderTemplate(item, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for i, item := range f.ClassFilter {
-		f.ClassFilter[i], err = builder.ParseStateTemplate(item, arguments, flags, config)
+		f.ClassFilter[i], err = b.RenderTemplate(item, arguments, flags)
 		if err != nil {
 			return err
 		}
 	}
 
 	for i, item := range f.FactFilter {
-		f.FactFilter[i], err = builder.ParseStateTemplate(item, arguments, flags, config)
+		f.FactFilter[i], err = b.RenderTemplate(item, arguments, flags)
 		if err != nil {
 			return err
 		}
