@@ -30,7 +30,6 @@ type Discover struct {
 	cmd       *fisk.CmdClause
 	fo        *discovery.StandardOptions
 	def       *Command
-	cfg       any
 	arguments map[string]any
 	flags     map[string]any
 	json      bool
@@ -43,7 +42,6 @@ func NewDiscoverCommand(b *builder.AppBuilder, j json.RawMessage, log builder.Lo
 		arguments: map[string]any{},
 		flags:     map[string]any{},
 		def:       &Command{},
-		cfg:       b.Configuration(),
 		ctx:       b.Context(),
 		log:       log,
 		b:         b,
@@ -108,7 +106,7 @@ func (r *Discover) runCommand(_ *fisk.ParseContext) error {
 	log := fw.Logger("find")
 
 	if r.def.Filter != nil {
-		err = appbuilder.ProcessStdDiscoveryOptions(r.def.Filter, r.arguments, r.flags, r.cfg)
+		err = appbuilder.ProcessStdDiscoveryOptions(r.b, r.def.Filter, r.arguments, r.flags)
 		if err != nil {
 			return err
 		}
