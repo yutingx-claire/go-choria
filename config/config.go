@@ -260,6 +260,10 @@ func NewConfigForTests() *Config {
 }
 
 func (c *Config) normalize() error {
+	if c.Puppet == nil {
+		c.Puppet = puppet.New()
+	}
+
 	if len(c.Collectives) == 0 {
 		c.Collectives = strings.Split(build.DefaultCollectives, ",")
 		if len(c.Collectives) == 0 {
