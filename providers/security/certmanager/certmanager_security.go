@@ -349,8 +349,7 @@ func (cm *CertManagerSecurity) k8sRequest(method string, url string, body io.Rea
 
 func (cm *CertManagerSecurity) k8sTLSConfig() (*tls.Config, error) {
 	tlsc := &tls.Config{
-		MinVersion:               tls.VersionTLS12,
-		PreferServerCipherSuites: true,
+		MinVersion: tls.VersionTLS12,
 	}
 
 	ca, err := os.ReadFile("/var/run/secrets/kubernetes.io/serviceaccount/ca.crt")

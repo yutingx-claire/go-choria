@@ -460,10 +460,9 @@ func (s *FileSecurity) TLSConfig() (*tls.Config, error) {
 	ca := s.caPath()
 
 	tlsc := &tls.Config{
-		MinVersion:               tls.VersionTLS12,
-		PreferServerCipherSuites: true,
-		CipherSuites:             s.conf.TLSConfig.CipherSuites,
-		CurvePreferences:         s.conf.TLSConfig.CurvePreferences,
+		MinVersion:       tls.VersionTLS12,
+		CipherSuites:     s.conf.TLSConfig.CipherSuites,
+		CurvePreferences: s.conf.TLSConfig.CurvePreferences,
 	}
 
 	if s.privateKeyExists() && s.publicCertExists() {

@@ -74,7 +74,10 @@ var _ = Describe("RegistrationData", func() {
 		Expect(err).ToNot(HaveOccurred())
 
 		msg := <-msgs
-		Expect(string(msg.Data)).To(Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/6pWSsvMSVWyUigpKk2tBQAAAP//AQAA//9QwpuPDgAAAA=="}`))
+		Expect(string(msg.Data)).To(Or(
+			Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/6pWSsvMSVWyUigpKk2tBQAAAP//AQAA//9QwpuPDgAAAA=="}`),
+			Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/wAOAPH/eyJmaWxlIjogdHJ1ZX0AAAD//wMAUMKbjw4AAAA="}`), // go 1.27 changed this
+		))
 		Expect(msg.TargetAgent).To(Equal("registration"))
 	})
 
@@ -88,7 +91,10 @@ var _ = Describe("RegistrationData", func() {
 		Expect(err).ToNot(HaveOccurred())
 
 		msg := <-msgs
-		Expect(string(msg.Data)).To(Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/6pWSsvMSVWyUigpKk2tBQAAAP//AQAA//9QwpuPDgAAAA=="}`))
+		Expect(string(msg.Data)).To(Or(
+			Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/6pWSsvMSVWyUigpKk2tBQAAAP//AQAA//9QwpuPDgAAAA=="}`),
+			Equal(`{"mtime":1511865541,"file":"testdata/sample.json","updated":false,"protocol":"choria:registration:filecontent:1","zcontent":"H4sIAAAAAAAA/wAOAPH/eyJmaWxlIjogdHJ1ZX0AAAD//wMAUMKbjw4AAAA="}`), // go 1.27 changed this
+		))
 		Expect(msg.TargetAgent).To(Equal(""))
 		Expect(msg.Destination).To(Equal("my.cmdb"))
 	})
